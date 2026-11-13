@@ -4,57 +4,53 @@ from abc import ABC, abstractmethod
 
 class Entidad(ABC):
     """
-    Clase abstracta base para las entidades del sistema Software FJ.
+    Clase abstracta que establece la estructura general
+    de las entidades del Sistema Software FJ.
 
-    Centraliza el identificador y establece el método de validación
-    que deben implementar las clases derivadas.
+    Las clases que hereden de Entidad deberán implementar
+    su propio método de validación.
     """
 
-    def __init__(self, identificador: str):
-        """
-        Inicializa una entidad con un identificador obligatorio.
-
-        Args:
-            identificador: Código único que identifica la entidad.
-
-        Raises:
-            TypeError: Si el identificador no es una cadena.
-            ValueError: Si el identificador está vacío.
-        """
-
-        if not isinstance(identificador, str):
-            raise TypeError("El identificador debe ser una cadena de texto.")
-
-        identificador = identificador.strip()
-
-        if not identificador:
-            raise ValueError("El identificador es obligatorio.")
-
-        self.__identificador = identificador
+    def __init__(self, identificador):
+        self.__identificador = None
+        self.identificador = identificador
 
     @property
-    def identificador(self) -> str:
-        """Permite consultar el identificador sin modificarlo directamente."""
+    def identificador(self):
+        """Permite consultar el identificador."""
         return self.__identificador
 
-    @abstractmethod
-    def validar(self) -> bool:
+    @identificador.setter
+    def identificador(self, valor):
         """
-        Define las validaciones obligatorias de cada entidad derivada.
+        Valida y asigna el identificador.
+        Se utiliza una cadena para conservar formatos
+        como los identificadores que comienzan en cero.
+        """
+        if not isinstance(valor, str):
+            raise TypeError(
+                "El identificador debe ser una cadena de texto."
+            )
 
-        Cada clase hija debe implementar este método.
+        valor = valor.strip()
+
+        if not valor:
+            raise ValueError(
+                "El identificador no puede estar vacío."
+            )
+
+        self.__identificador = valor
+
+    @abstractmethod
+    def validar(self):
+        """
+        Método abstracto que cada clase hija debe implementar.
         """
         pass
 
-    def __str__(self) -> str:
-        """Representación legible de la entidad."""
-        return f"{self.__class__.__name__}: {self.identificador}"
+    def __str__(self):
+        """Representación general de la entidad."""
+        return f"Entidad: {self.identificador}"
 
-    def __repr__(self) -> str:
-        """Representación técnica de la entidad."""
-        return (
-            f"{self.__class__.__name__}"
-            f"(identificador={self.identificador!r})"
-        )
 
 

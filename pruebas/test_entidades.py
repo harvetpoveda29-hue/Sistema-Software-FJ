@@ -7,32 +7,37 @@ from entidades import Entidad
 class EntidadPrueba(Entidad):
     """Clase concreta utilizada únicamente para probar Entidad."""
 
-    def validar(self) -> bool:
+    def validar(self):
         return True
 
 
 class TestEntidad(unittest.TestCase):
 
-    def test_identificador_valido(self):
-        entidad = EntidadPrueba("CLI-001")
-        self.assertEqual(entidad.identificador, "CLI-001")
+    def test_creacion_correcta(self):
+        entidad = EntidadPrueba("001")
+        self.assertEqual(entidad.identificador, "001")
 
     def test_identificador_vacio(self):
         with self.assertRaises(ValueError):
             EntidadPrueba("   ")
 
-    def test_identificador_tipo_incorrecto(self):
+    def test_identificador_nulo(self):
+        with self.assertRaises(TypeError):
+            EntidadPrueba(None)
+
+    def test_identificador_no_textual(self):
         with self.assertRaises(TypeError):
             EntidadPrueba(123)
 
-    def test_no_se_puede_instanciar_entidad(self):
+    def test_entidad_es_abstracta(self):
         with self.assertRaises(TypeError):
-            Entidad("GEN-001")
+            Entidad("001")
 
-    def test_validacion_de_entidad_derivada(self):
-        entidad = EntidadPrueba("CLI-002")
+    def test_validacion(self):
+        entidad = EntidadPrueba("001")
         self.assertTrue(entidad.validar())
 
 
 if __name__ == "__main__":
     unittest.main()
+

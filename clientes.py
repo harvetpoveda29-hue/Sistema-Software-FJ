@@ -15,10 +15,10 @@ class Cliente(Entidad):
     def __init__(self, identificador, nombre, apellido, correo, telefono):
         super().__init__(identificador)
 
-        self.__nombre = nombre
-        self.__apellido = apellido
-        self.__correo = correo
-        self.__telefono = telefono
+        self.nombre = nombre
+        self.apellido = apellido
+        self.correo = correo
+        self.telefono = telefono
 
         self.validar()
 

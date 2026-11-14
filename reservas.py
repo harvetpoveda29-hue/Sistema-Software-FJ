@@ -6,7 +6,6 @@ from clientes import Cliente
 from servicios import Servicio
 
 from excepciones import (
-    ErrorValidacion,
     ErrorCliente,
     ErrorServicio,
     ErrorReserva,
@@ -94,10 +93,14 @@ class Reserva(Entidad):
         """Comprueba que los datos de la reserva sean válidos."""
 
         if not isinstance(self.cliente, Cliente):
-            raise ErrorCliente("El cliente de la reserva no es válido.")
+            raise ErrorCliente(
+                "El cliente de la reserva no es válido."
+            )
 
         if not isinstance(self.servicio, Servicio):
-            raise ErrorServicio("El servicio de la reserva no es válido.")
+            raise ErrorServicio(
+                "El servicio de la reserva no es válido."
+            )
 
         self.__validar_duracion(self.duracion)
 
@@ -165,10 +168,10 @@ class Reserva(Entidad):
 
         return True
 
-    def procesar(self):
+    def procesar(self, impuesto=0, descuento=0):
         """
         Procesa una reserva confirmada.
-        Calcula el costo y cambia su estado a Procesada.
+        Calcula el costo aplicando el impuesto y descuento indicados.
         """
 
         if self.estado != "Confirmada":
@@ -177,7 +180,10 @@ class Reserva(Entidad):
             )
 
         try:
-            costo = self.calcular_costo()
+            costo = self.calcular_costo(
+                impuesto=impuesto,
+                descuento=descuento
+            )
 
             self.__estado = "Procesada"
 
@@ -193,7 +199,6 @@ class Reserva(Entidad):
                 f"No se pudo procesar la reserva "
                 f"{self.identificador}: {error}"
             )
-
             raise
 
     def __str__(self):
@@ -207,4 +212,3 @@ class Reserva(Entidad):
             f"Duración: {self.duracion} | "
             f"Estado: {self.estado}"
         )
-

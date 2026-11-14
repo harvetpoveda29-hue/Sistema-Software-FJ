@@ -14,6 +14,16 @@ from excepciones import (
 
 
 class TestReserva(unittest.TestCase):
+    def test_procesar_reserva_con_impuesto_descuento(self):
+        self.reserva.confirmar()
+
+        costo = self.reserva.procesar(
+            impuesto=19,
+            descuento=10
+        )
+
+        self.assertEqual(costo, Decimal("214200.00"))
+        self.assertEqual(self.reserva.estado, "Procesada")
 
     def setUp(self):
         self.cliente = Cliente(
@@ -107,7 +117,6 @@ class TestReserva(unittest.TestCase):
             self.consultoria,
             2
         )
-
         self.assertEqual(
             reserva.calcular_costo(),
             Decimal("160000.00")
@@ -185,3 +194,13 @@ class TestReserva(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+def test_procesar_reserva_con_impuesto_descuento(self):
+    self.reserva.confirmar()
+
+    costo = self.reserva.procesar(
+        impuesto=19,
+        descuento=10
+    )
+
+    self.assertEqual(costo, Decimal("214200.00"))
+    self.assertEqual(self.reserva.estado, "Procesada")
